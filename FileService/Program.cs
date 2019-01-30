@@ -16,7 +16,8 @@ namespace FileService
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", optional: true)
+                .AddJsonFile("config/appsettings.json", optional: true)
+                .AddJsonFile("config/hosting.json", optional: true)
                 .Build();
 
             var host = new WebHostBuilder()

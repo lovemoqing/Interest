@@ -1,0 +1,4 @@
+﻿2019年1月30日16:37:05 添加项目笔记 用于记录项目过程中一些需要注意的事项。
+
+1.在Program.cs中配置json文件时,需要注意一下路径,比如目前的hosting.json在config文件夹下,
+那么AddJsonFile里的路径就是“config/hosting.json”，config前面不能再带斜杠，否则无法读取到配置文件.
