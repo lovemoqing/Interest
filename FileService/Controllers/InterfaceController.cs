@@ -7,6 +7,7 @@ using FileService.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -77,5 +78,16 @@ namespace FileService.Controllers
             }
             return Ok(new { count = files.Count, size });
         }
+
+        /// <summary>
+        /// 文件流的方式输出        /// </summary>
+        /// <returns></returns>
+        public IActionResult DownLoad(string filePathAndName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + filePathAndName;
+            var stream = System.IO.File.OpenRead(filePath);
+            return File(stream, "application/octet-stream", Path.GetFileName(filePath));
+        }
+
     }
 }
