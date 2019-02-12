@@ -7,6 +7,7 @@ using FileService.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -46,20 +47,22 @@ namespace FileService
                     name: "default",
                     template: "{controller=Home}/{action=Index}/");
             });
-            //使用默认文件夹wwwroot
-            //app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                //设置不限制content-type
-                ServeUnknownFileTypes = true
-            });
 
+
+            //允许访问常见的具体文件，在网页上展示，不支持的MIME类型会返回404
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                RequestPath = "/wwwroot",
+                EnableDirectoryBrowsing = true
+            }); 
             //使用目录浏览
             app.UseDirectoryBrowser(new DirectoryBrowserOptions()
             {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
                 RequestPath = new PathString("/wwwroot")
+                
             });
         }
     }
