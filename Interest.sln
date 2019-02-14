@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileService", "FileService\FileService.csproj", "{AA092122-EEE5-41ED-980B-B05CE00C370E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileService", "FileService\FileService.csproj", "{AA092122-EEE5-41ED-980B-B05CE00C370E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C9FB3FA3-7AD3-43B5-8810-91F4E403C201}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9FB3FA3-7AD3-43B5-8810-91F4E403C201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9FB3FA3-7AD3-43B5-8810-91F4E403C201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9FB3FA3-7AD3-43B5-8810-91F4E403C201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9FB3FA3-7AD3-43B5-8810-91F4E403C201}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
