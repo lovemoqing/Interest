@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Notice
+    public class TB_Notice
     {
         public int ID { get; set; }
         public string NoticeName { get; set; }

@@ -42,10 +42,19 @@
         },
         methods: {
             submitForm(formName) {
+                console.log("formName:"+formName);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
+                        var from=new FormData();
+                        from.append("UserName",this.ruleForm.username);
+                        from.append("Password",this.ruleForm.password);
+                        this.$axios.post("http://localhost:57637/api/Account/Single", from).then((res) => {
+                            if(res!="")
+                            {
+                                this.$cookies.set("UserName",this.ruleForm.username);
+                                this.$router.push('/');
+                            }
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;

@@ -8,4 +8,8 @@
     <PackageReference Include="sqlSugarCore" Version="4.9.9.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj" />
+  </ItemGroup>
+
 </Project>
