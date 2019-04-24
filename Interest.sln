@@ -5,11 +5,9 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileService", "FileService\FileService.csproj", "{AA092122-EEE5-41ED-980B-B05CE00C370E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{67FA1491-CC02-4267-BA69-B2515DE540E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{C73029B6-6EB2-4EF3-806C-0325A24F242C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{C73029B6-6EB2-4EF3-806C-0325A24F242C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{1CD4C35D-4992-4A9F-BB45-787BCB7F65F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{1CD4C35D-4992-4A9F-BB45-787BCB7F65F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA092122-EEE5-41ED-980B-B05CE00C370E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67FA1491-CC02-4267-BA69-B2515DE540E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67FA1491-CC02-4267-BA69-B2515DE540E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67FA1491-CC02-4267-BA69-B2515DE540E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67FA1491-CC02-4267-BA69-B2515DE540E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C73029B6-6EB2-4EF3-806C-0325A24F242C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C73029B6-6EB2-4EF3-806C-0325A24F242C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C73029B6-6EB2-4EF3-806C-0325A24F242C}.Release|Any CPU.ActiveCfg = Release|Any CPU

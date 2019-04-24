@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FileService.Common;
 using FileService.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace FileService.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.FileList = FileSugar.List(@"D:\penglong");
             ViewBag.Host = _siteConfig.Info;
             return View();
         }

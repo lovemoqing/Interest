@@ -1,29 +1,42 @@
-﻿<!DOCTYPE html>
+﻿@using FileService.Model
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index-2</title>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-    <form method="post" enctype="multipart/form-data" action="/api/Interface/Post">
-        <div>
-            <p>Upload one or more files using this form:</p>
-            <input type="file" name="files" />
-        </div>
-        <div>
-            <input type="submit" value="Upload" />
-        </div>
-    </form>
-
-    <div>
-        <input type="text" id="filename" placeholder="filePathAndName"/><button onclick="downLoad()">下载</button>
-    </div>
+    <table class="table table-striped" style="width:800px;">
+        <tr>
+            <td class="active">名称</td>
+            <td class="success">创建时间</td>
+            <td class="warning">最后一次访问时间</td>
+            <td class="danger">最后一次修改时间</td>
+            <td class="info">子文件个数</td>
+        </tr>
+        @{
+            foreach (FileModel item in ViewBag.FileList)
+            {
+                <tr>
+                    <td class="active"><a href="#">@item.Name</a></td>
+                    <td class="success">@item.CreationTime</td>
+                    <td class="warning">@item.LastAccessTime</td>
+                    <td class="danger">@item.LastWriteTime</td>
+                    <td class="info">@item.Length</td>
+                </tr>
+            }
+        }
+    </table>
 </body>
 </html>
-<script>
-     function downLoad() {
-            var filename = $("#filename").val();
-         window.location.href = "/api/Interface/DownLoad?filePathAndName=" + filename;
-        }
+<script> 
 </script>

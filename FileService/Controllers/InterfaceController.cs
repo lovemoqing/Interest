@@ -29,16 +29,16 @@ namespace FileService.Controllers
         /// </summary>
         /// <param name="id">标识，暂时没用</param>
         /// <param name="filename">图片名称，带后缀名</param>
-        /// <param name="img">图片base64编码</param>
+        /// <param name="baseData">图片base64编码</param>
         /// <returns></returns>
-        public IActionResult Upload(int id, string filename, string img)
+        public IActionResult Upload(int id, string filename, string baseData)
         {
             string res = string.Empty;
             try
             {
                 string filePath = _hostingEnvironment.WebRootPath + "/images/" + filename;
                 //将Base64String转为图片并保存
-                byte[] arr2 = Convert.FromBase64String(img);
+                byte[] arr2 = Convert.FromBase64String(baseData);
                 using (MemoryStream ms2 = new MemoryStream(arr2))
                 {
                     System.Drawing.Bitmap bmp2 = new System.Drawing.Bitmap(ms2);
