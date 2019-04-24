@@ -15,28 +15,198 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-    <table class="table table-striped" style="width:800px;">
+    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">CreateFolder</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#upload">Upload</button>
+        <button type="button" class="btn btn-default">DownLoad</button>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        创建一个文件夹
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="folderName" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="CreateFolder">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" enctype="multipart/form-data" action="/Home/Post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            上传一个文件
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="file" name="file" />
+                        <input type="hidden" id="currpath"  name="currpath"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="CreateFolder">
+                            提交
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->s
+            </form>
+            
+        </div><!-- /.modal -->
+    </div>
+
+
+
+
+
+
+
+    <ol class="breadcrumb" id="crumbs">
+        <li><a href="#">Home</a></li>
+    </ol>
+    <table class="table table-striped" style="width:800px;margin-top:-23px;">
         <tr>
             <td class="active">名称</td>
             <td class="success">创建时间</td>
-            <td class="warning">最后一次访问时间</td>
             <td class="danger">最后一次修改时间</td>
             <td class="info">子文件个数</td>
+            <td class="warning">文件类型</td>
+            <td class="danger">操作</td>
         </tr>
         @{
             foreach (FileModel item in ViewBag.FileList)
             {
                 <tr>
-                    <td class="active"><a href="#">@item.Name</a></td>
+                    <td class="active"><a href="javascript:GetFileList('@item.Name','@item.FileType')">@item.Name</a></td>
                     <td class="success">@item.CreationTime</td>
-                    <td class="warning">@item.LastAccessTime</td>
                     <td class="danger">@item.LastWriteTime</td>
                     <td class="info">@item.Length</td>
+                    <td class="warning">@item.FileType</td>
+                    <td class="danger"><a href="javascript:Del('@item.Name');">删除</a></td>
                 </tr>
             }
         }
     </table>
+    
 </body>
 </html>
-<script> 
+<script>
+    function GetFileList(name, type) {
+        if (type == "文件夹") {
+            var currpath = $("#currpath").val() + "," + name;
+            $("#currpath").val(currpath);
+            Crumbs(currpath);
+            $.post("/Home/GetFileList", { currPath: currpath }, function (data) {
+                $("table tbody").html("");
+                if (data != undefined) {
+                    var html = `
+                            <tr>
+                                <td class="active">名称</td>
+                                <td class="success">创建时间</td>
+                                <td class="danger">最后一次修改时间</td>
+                                <td class="info">子文件个数</td>
+                                <td class="warning">文件类型</td>
+                                <td class="danger">操作</td>
+                            </tr>
+                    `;
+                    $(data).each(function (i, e) {
+                        html += `
+                        <tr>
+                            <td class="active"><a href="javascript:GetFileList('`+ e.Name + `','` + e.FileType + `')">` + e.Name + `</a></td>
+                            <td class="success">`+ e.CreationTime + `</td>
+                            <td class="danger">`+ e.LastWriteTime + `</td>
+                            <td class="info">`+ e.Length + `</td>
+                            <td class="warning">`+ e.FileType + `</td>
+                            <td class="danger"><a href="javascript:Del('e.Name');">删除</a></td>
+                        </tr>
+                        `;
+                    });
+                    $("tbody").append(html);
+                }
+            }, "JSON");
+        }
+    }
+    function Crumbs(path) {
+        var res = "Home";
+        var arr = path.split(",");
+        for (var i = arr.length - 1; i < arr.length; i++) {
+            if (arr[i] != undefined && arr[i].length > 0) {
+                $("#crumbs").append("<li>" + arr[i] + "</li>");
+            }
+        }
+    }
+
+
+    $("#CreateFolder").click(function () {
+        var folderName = $("#folderName").val();
+        if (folderName.length == 0) {
+            alert("请输入文件夹名！");
+            return;
+        }
+        var currpath = $("#currpath").val() + "," + $("#folderName").val();
+        $.post("/Home/CreateFolder", { currPath: currpath }, function (data) { window.location.reload(); }, "JSON");
+    });
+    function Del(name) {
+        var currpath = $("#currpath").val() + "," + name;
+        console.log(currpath);
+        $.post("/Home/Del", { currPath: currpath }, function (data) { window.location.reload(); }, "JSON");
+    }
+    function GetCurrTime(format) {
+        var time = new Date();
+        var nowYear = time.getFullYear().toString()
+        var nowMonth = (time.getMonth() + 1).toString()
+        var nowDay = time.getDate().toString();
+        var nowHours = time.getHours().toString();       //获取当前小时数(0-23)
+        var nowMin = time.getMinutes().toString();     //获取当前分钟数(0-59)
+        var nowSeconds = time.getSeconds().toString();     //获取当前秒数(0-59)
+        function timeAdd0(str) {
+            if (str.length <= 1) {
+                str = '0' + str;
+            }
+            return str
+        }
+        nowYear = timeAdd0(nowYear)
+        nowMonth = timeAdd0(nowMonth)
+        nowDay = timeAdd0(nowDay)
+        nowHours = timeAdd0(nowHours)
+        nowMin = timeAdd0(nowMin)
+        nowSeconds = timeAdd0(nowSeconds)
+        var res = "";
+        switch (format) {
+            case "date":
+                res = nowYear + "-" + nowMonth + "-" + nowDay;
+                break;
+            default:
+                res = nowYear + "-" + nowMonth + "-" + nowDay + " " + nowHours + ":" + nowMin + ":" + nowSeconds;
+                break;
+        }
+        return res;
+    }
+    //精确到年月日
+    console.log(GetCurrTime("date"));
+    //精确到年月日时分秒
+    console.log(GetCurrTime());
 </script>

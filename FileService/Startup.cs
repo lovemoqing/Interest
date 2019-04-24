@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace FileService
 {
@@ -27,7 +29,18 @@ namespace FileService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                //全局配置Json序列化处理
+                .AddJsonOptions(options =>
+                {
+                    //忽略循环引用
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //不使用驼峰样式的key
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    //设置时间格式
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                }
+                );
             services.Configure<SiteConfig>(Configuration.GetSection("SiteConfig"));
             //开启目录浏览
             services.AddDirectoryBrowser();
