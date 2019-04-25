@@ -72,5 +72,15 @@ namespace FileService.Controllers
             }
             return Ok(new { count = files.Count, size });
         }
+
+        /// <summary>
+        /// 文件流的方式输出        /// </summary>
+        /// <returns></returns>
+        public IActionResult DownLoad(string currPath)
+        {
+            Tools tools = new Tools(_siteConfig);
+            var stream = System.IO.File.OpenRead(tools.GetPath(currPath));
+            return File(stream, "application/octet-stream", Path.GetFileName(tools.GetPath(currPath)));
+        }
     }
 }

@@ -18,7 +18,6 @@
     <div class="btn-group btn-group-sm" role="group" aria-label="...">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">CreateFolder</button>
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#upload">Upload</button>
-        <button type="button" class="btn btn-default">DownLoad</button>
     </div>
 
     <!-- 模态框（Modal） -->
@@ -105,7 +104,9 @@
                     <td class="danger">@item.LastWriteTime</td>
                     <td class="info">@item.Length</td>
                     <td class="warning">@item.FileType</td>
-                    <td class="danger"><a href="javascript:Del('@item.Name');">删除</a></td>
+                    <td class="danger"><a href="javascript:Del('@item.Name');">删除</a>&nbsp;&nbsp;
+                    @if (item.FileType == "文件") { <a href="javascript:DownLoad('@item.Name');">下载</a> }
+                    </td>
                 </tr>
             }
         }
@@ -133,6 +134,11 @@
                             </tr>
                     `;
                     $(data).each(function (i, e) {
+                        var temp = "";
+                        if (e.FileType == "文件") {
+                            temp = `<a href="javascript:DownLoad('` + e.Name + `');">下载</a>`;
+                        }
+                        
                         html += `
                         <tr>
                             <td class="active"><a href="javascript:GetFileList('`+ e.Name + `','` + e.FileType + `')">` + e.Name + `</a></td>
@@ -140,7 +146,7 @@
                             <td class="danger">`+ e.LastWriteTime + `</td>
                             <td class="info">`+ e.Length + `</td>
                             <td class="warning">`+ e.FileType + `</td>
-                            <td class="danger"><a href="javascript:Del('e.Name');">删除</a></td>
+                            <td class="danger"><a href="javascript:Del('`+ e.Name+`');">删除</a>&nbsp;&nbsp;` + temp+ ` </td>
                         </tr>
                         `;
                     });
@@ -173,6 +179,13 @@
         var currpath = $("#currpath").val() + "," + name;
         console.log(currpath);
         $.post("/Home/Del", { currPath: currpath }, function (data) { window.location.reload(); }, "JSON");
+    }
+    function DownLoad(name) {
+        var currpath = $("#currpath").val() + "," + name;
+        console.log(currpath);
+        var href = "/Home/DownLoad?currPath=" + currpath;
+        window.open(href);
+        //$.post("/Home/DownLoad", { currPath: currpath }, function (data) { /*window.location.reload();*/ }, "JSON");
     }
     function GetCurrTime(format) {
         var time = new Date();
