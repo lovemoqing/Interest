@@ -18,6 +18,7 @@
     <div class="btn-group btn-group-sm" role="group" aria-label="...">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">CreateFolder</button>
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#upload">Upload</button>
+        <button type="button" class="btn btn-default" onclick="ReturnLast()">ReturnLast</button>
     </div>
 
     <!-- 模态框（Modal） -->
@@ -83,10 +84,10 @@
 
 
 
-    <ol class="breadcrumb" id="crumbs">
+    <ol class="breadcrumb" id="crumbs" style="display:none;">
         <li><a href="#">Home</a></li>
     </ol>
-    <table class="table table-striped" style="width:800px;margin-top:-23px;">
+    <table class="table table-striped" style="width:800px;margin-top:0px;">
         <tr>
             <td class="active">名称</td>
             <td class="success">创建时间</td>
@@ -159,8 +160,8 @@
         var res = "Home";
         var arr = path.split(",");
         for (var i = arr.length - 1; i < arr.length; i++) {
-            if (arr[i] != undefined && arr[i].length > 0) {
-                $("#crumbs").append("<li>" + arr[i] + "</li>");
+            if (arr[i] != undefined && arr[i].length > 0 ) {
+                $("#crumbs").append("<li><a href='javascript:void(0)'>" + arr[i] + "</a></li>");
             }
         }
     }
@@ -185,7 +186,6 @@
         console.log(currpath);
         var href = "/Home/DownLoad?currPath=" + currpath;
         window.open(href);
-        //$.post("/Home/DownLoad", { currPath: currpath }, function (data) { /*window.location.reload();*/ }, "JSON");
     }
     function GetCurrTime(format) {
         var time = new Date();
@@ -212,14 +212,31 @@
             case "date":
                 res = nowYear + "-" + nowMonth + "-" + nowDay;
                 break;
+            case "HH:MM":
+                res = nowHours + ":" + nowMin;
+                break;
             default:
                 res = nowYear + "-" + nowMonth + "-" + nowDay + " " + nowHours + ":" + nowMin + ":" + nowSeconds;
                 break;
         }
         return res;
     }
-    //精确到年月日
-    console.log(GetCurrTime("date"));
-    //精确到年月日时分秒
-    console.log(GetCurrTime());
+
+    function ReturnLast() {
+        var temp = $("#currpath").val();
+        if (temp) {
+            if (temp.charAt(temp.length - 1) == ",") {
+                temp = temp.substring(0, temp.Length - 1);
+            }
+            //返回一级
+            var temp = temp.split(',');
+            temp.pop();
+            temp = temp.toString();
+            if (temp.charAt(temp.length - 1) == ",") {
+                temp = temp.substring(0, temp.Length - 1);
+            }
+            $("#currpath").val(temp);
+            GetFileList("", "文件夹");
+        }
+    }
 </script>
